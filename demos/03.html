@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="../org/angularjs1.6/angular.min.js"></script>
+    <link rel="stylesheet" href="../org/bootstrap-3.3.7/css/bootstrap.min.css">
+</head>
+<body>
+<div ng-app="app" ng-controller="ctrl">
+    <section>
+        <form class="form-inline">
+            <input type="text" class="form-control" ng-model="search">
+            <button type="submit" class="btn btn-primary" ng-click="searchData()">搜索</button>
+        </form>
+    </section>
+
+    <table class="table table-bordered table-hover table-responsive">
+        <thead>
+        <tr>
+            <th>ID
+                <button class="btn btn-info btn-sm" ng-click="dsc('id')">{{status ? '升序': '降序'}}</button>
+            </th>
+            <th>名称
+                <button class="btn btn-info btn-sm" ng-click="dsc('name')">{{status ? '升序': '降序'}}</button>
+            </th>
+            <th>年龄
+                <button class="btn btn-info btn-sm" ng-click="dsc('age')">{{status ? '升序': '降序'}}</button>
+            </th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr ng-repeat="(k, v) in lists">
+            <td ng-bind="v.id"></td>
+            <td ng-bind="v.name"></td>
+            <td ng-bind="v.age"></td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+
+<script>
+    /**
+     * $filter、$scope.$watch数据筛选
+     */
+    var app = angular.module('app', []);
+    app.controller('ctrl', ['$scope', '$filter', function ($scope, $filter) {
+        $scope.datas = [{"age": 20, "id": 10, "name": "iphone"},
+            {"age": 12, "id": 11, "name": "sunm xing"},
+            {"age": 44, "id": 12, "name": "test abc"}
+        ];
+        $scope.status = false;
+        $scope.lists = $scope.datas;
+        // 排序
+        $scope.dsc = function (field) {
+            if (!this.status) {
+                this.status = true;
+            } else {
+                this.status = false;
+            }
+            return this.lists = $filter('orderBy')(this.lists, field, this.status);
+        };
+
+        // 监听数据筛选
+        $scope.searchData = function () {
+            $scope.$watch('search', function (n, o) {
+                $scope.lists = $filter('filter')($scope.datas, n);
+            });
+        }
+
+
+    }]);
+</script>
+</body>
+</html>

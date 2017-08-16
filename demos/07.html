@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="../org/angularjs1.6/angular.min.js"></script>
+    <link rel="stylesheet" href="../org/bootstrap-3.3.7/css/bootstrap.min.css">
+</head>
+<body>
+<div ng-app="app">
+    <div xgy-c>my name</div>
+</div>
+<script>
+/**
+ * [app description]自定义directive
+ * @type {[type]}
+ */
+    var app = angular.module('app', []);
+    app.directive('xgyC', [function () {
+        return {
+            restrict: 'AE', // A是属性，E是元素,C是class
+            // template: '<h3>我是谁</h3>',
+            replace: true,
+            templateUrl: '../views/xgyc.html'
+        };
+    }]);
+
+</script>
+</body>
+</html>

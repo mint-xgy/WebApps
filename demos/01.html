@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="../org/angularjs1.6/angular.min.js"></script>
+    <link rel="stylesheet" href="../org/bootstrap-3.3.7/css/bootstrap.min.css">
+</head>
+<body>
+<div ng-app="app" ng-controller="ctrl">
+
+    <table class="table table-bordered table-hover table-responsive">
+        <thead>
+        <tr>
+            <th>ID
+                <button class="btn btn-info btn-sm" ng-click="dsc('id')">{{status ? '升序': '降序'}}</button>
+            </th>
+            <th>名称
+                <button class="btn btn-info btn-sm" ng-click="dsc('name')">{{status ? '升序': '降序'}}</button>
+            </th>
+            <th>年龄
+                <button class="btn btn-info btn-sm" ng-click="dsc('age')">{{status ? '升序': '降序'}}</button>
+            </th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr ng-repeat="(k, v) in datas">
+            <td ng-bind="v.id"></td>
+            <td ng-bind="v.name"></td>
+            <td ng-bind="v.age"></td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+
+<script>
+    /**
+     * angular过滤器在控制器中使用，注入$filter
+     */
+    var app = angular.module('app', []);
+    app.controller('ctrl', ['$scope', '$filter', function ($scope, $filter) {
+        $scope.datas = [{"age": 20, "id": 10, "name": "iphone"},
+            {"age": 12, "id": 11, "name": "sunm xing"},
+            {"age": 44, "id": 12, "name": "test abc"}
+        ];
+        $scope.status = false;
+        // 排序
+        $scope.dsc = function (field) {
+            if (!this.status) {
+                this.status = true;
+            } else {
+                this.status = false;
+            }
+            return this.datas = $filter('orderBy')(this.datas, field, this.status);
+        };
+    }]);
+</script>
+</body>
+</html>

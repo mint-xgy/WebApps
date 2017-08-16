@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="../org/angularjs1.6/angular.min.js"></script>
+    <link rel="stylesheet" href="../org/bootstrap-3.3.7/css/bootstrap.min.css">
+</head>
+<body>
+<div ng-app="app" ng-controller="ctrl">
+    <input type="text" ng-model="title"><span>{{msg}}</span>
+    <input type="text" ng-model="p.age">{{error}}
+
+</div>
+
+<script>
+    /**
+     * 监视数据变化$scope.$watch()
+     */
+    var app = angular.module('app', []);
+    app.controller('ctrl', ['$scope', '$filter', function ($scope, $filter) {
+        $scope.title = '';
+        $scope.p = {age: 10};
+        // 监听变量
+        $scope.$watch('title', function (n, o) {
+            $scope.msg = n.length > 5 ? '字符长度不能超过5个': '';
+        });
+        // 监听对象要添加true
+        $scope.$watch('p', function (n, o) {
+           $scope.error = n.age > 40? '年龄不能大于40': '';
+        }, true);
+    }]);
+</script>
+</body>
+</html>
